@@ -1,1 +1,20 @@
-/* You can add global styles to this file, and also import other style files */
+footer{
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+}
+.marginTop{
+  margin-top: 20px;
+}
+.justify{
+  text-align: justify;
+}
+
+.twoMargins{
+  margin-left: 30px;
+  margin-right: 30px;
+}
+body{
+
+  background: red;
+}

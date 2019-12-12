@@ -1,0 +1,79 @@
+<div style="text-align: center; padding: 20px; margin: 20px;">
+  <div style="float: left; width: 200px; margin-left: 30px;" class="form-group row">
+    <label class="form-group row" for="inputGroupSelect01">Operación:</label>
+  </div>
+  <select (change)="cambiar_operacion(operacion.value)" style="float: left; width: 200px; margin-left: 30px;"   class="custom-select" id="inputGroupSelect01"  #operacion>
+    <option value="Maximizar">Maximizar</option>
+    <option value="Minimizar">Minimizar</option>
+  </select>
+  
+  <div style="width: 200px; margin-left: 30px;">
+    <div class="form-group row">
+      <label class="form-group row" for="inputGroupSelect01">Cantidad de Variables:</label>
+      <input type="number" class="form-control" placeholder="Cantidad Variables" min="1" required #cantidad_variables>
+    </div>
+  </div>
+  
+  <div class="form-group row">
+      <div style="width: 430px; margin-left: 30px;">
+          <button (click)="crear_variables(cantidad_variables.value)" type="button" class="btn btn-outline-info noMargin col">Agregar</button>
+      </div>    
+  </div>
+
+  <div *ngFor="let boton of variables_botones">
+      <div style="float: left; width: 70px; margin-left: 30px;">
+          <input *ngIf="boton.columna == 1" type="number" class="form-control" placeholder="x1" id="x1" required #x1>
+          <input *ngIf="boton.columna == 2" type="number" class="form-control" placeholder="x2" id="x2" required #x2>
+          <input *ngIf="boton.columna == 3" type="number" class="form-control" placeholder="x3" id="x3" required #x3>
+          <input *ngIf="boton.columna == 4" type="number" class="form-control" placeholder="x4" id="x4" required #x4>
+          <input *ngIf="boton.columna == 5" type="number" class="form-control" placeholder="x5" id="x5" required #x5>
+          <input *ngIf="boton.columna == 6" type="number" class="form-control" placeholder="x6" id="x6" required #x6>
+          <input *ngIf="boton.columna == 7" type="number" class="form-control" placeholder="x7" id="x7" required #x7>
+          <input *ngIf="boton.columna == 8" type="number" class="form-control" placeholder="x8" id="x8" required #x8>
+      </div>
+  </div>
+</div>
+
+<div style="text-align: center; padding: 20px; margin: 20px;">
+  <div style="width: 200px; margin-left: 30px;">
+    <div class="form-group row">
+      <label class="form-group row" for="inputGroupSelect01">Cantidad de Restricciones:</label>
+      <input type="number" class="form-control" placeholder="Cantidad Restricciones" min="1" required #cantidad_restricciones>
+    </div>
+  </div>
+  <div class="form-group row">
+      <div style="width: 430px; margin-left: 30px;">
+          <button (click)="crear_restricciones(cantidad_restricciones.value)" type="button" class="btn btn-outline-info noMargin col">Agregar</button>
+      </div>    
+  </div>
+  <table *ngIf="estado" class="table table-striped animated fadeIn fast">
+    <thead>
+    </thead>
+    <tbody>
+      <tr *ngFor="let boton_restricciones of restricciones_filas" class=" animated fadeIn fast">
+        <td>
+          <div *ngFor="let boton_variables of variables_botones">
+            <div style="float: left; width: 70px; margin-left: 30px;">
+              <input *ngIf="boton_variables.columna == 1" type="number" class="form-control" placeholder="x1" [id]="boton_restricciones.fila +'-'+ boton_variables.columna">
+              <input *ngIf="boton_variables.columna == 2" type="number" class="form-control" placeholder="x2" [id]="boton_restricciones.fila +'-'+ boton_variables.columna">
+              <input *ngIf="boton_variables.columna == 3" type="number" class="form-control" placeholder="x3" [id]="boton_restricciones.fila +'-'+ boton_variables.columna">
+              <input *ngIf="boton_variables.columna == 4" type="number" class="form-control" placeholder="x4" [id]="boton_restricciones.fila +'-'+ boton_variables.columna">
+              <input *ngIf="boton_variables.columna == 5" type="number" class="form-control" placeholder="x5" [id]="boton_restricciones.fila +'-'+ boton_variables.columna">
+              <input *ngIf="boton_variables.columna == 6" type="number" class="form-control" placeholder="x6" [id]="boton_restricciones.fila +'-'+ boton_variables.columna">
+              <input *ngIf="boton_variables.columna == 7" type="number" class="form-control" placeholder="x7" [id]="boton_restricciones.fila +'-'+ boton_variables.columna">
+              <input *ngIf="boton_variables.columna == 8" type="number" class="form-control" placeholder="x8" [id]="boton_restricciones.fila +'-'+ boton_variables.columna">
+
+            </div>
+          </div> 
+          <select style="float: left; width: 70px; margin-left: 30px;" class="custom-select">
+            <option value="mayor"> >= </option>
+            <option value="menor"> <= </option>
+          </select>
+          <div style="float: left; width: 70px; margin-left: 30px;">
+            <input type="number" class="form-control" placeholder="R" [id]="boton_restricciones.fila +'-r'">
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
