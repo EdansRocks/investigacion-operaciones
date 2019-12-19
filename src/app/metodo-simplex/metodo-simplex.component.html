@@ -77,3 +77,58 @@
     </tbody>
   </table>
 </div>
+<div style="text-align: center; padding: 20px; margin: 20px;">
+  <div class="form-group row">
+    <div style="width: 430px; margin-left: 30px;">
+        <button (click)="empezar()" type="button" class="btn btn-outline-info noMargin col">Empezar</button>
+    </div>    
+  </div>
+  <table *ngIf="iniciar" class="table table-striped animated fadeIn fast">
+    <thead>
+      <tr>
+        <td>
+          <div *ngFor="let titulos of variables_columnas">
+            <div style="float: left; width: 70px; margin-left: 30px;">
+              <div *ngIf="titulos.columna == 1">{{titulos.etiqueta}}</div>
+              <div *ngIf="titulos.columna == 2">{{titulos.etiqueta}}</div>
+              <div *ngIf="titulos.columna == 3">{{titulos.etiqueta}}</div>
+              <div *ngIf="titulos.columna == 4">{{titulos.etiqueta}}</div>
+              <div *ngIf="titulos.columna == 5">{{titulos.etiqueta}}</div>
+              <div *ngIf="titulos.columna == 6">{{titulos.etiqueta}}</div>
+              <div *ngIf="titulos.columna == 7">{{titulos.etiqueta}}</div>
+              <div *ngIf="titulos.columna == 8">{{titulos.etiqueta}}</div>
+              <div *ngIf="titulos.columna == 9">{{titulos.etiqueta}}</div>
+              <div *ngIf="titulos.columna == 10">{{titulos.etiqueta}}</div>
+              <div *ngIf="titulos.columna == 11">{{titulos.etiqueta}}</div>
+              <div *ngIf="titulos.columna == 12">{{titulos.etiqueta}}</div>
+            </div>
+          </div> 
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let filas of arreglo_variables" class=" animated fadeIn fast">
+        <td>
+          <div *ngFor="let columnas of filas.fila">
+            <div style="float: left; width: 70px; margin-left: 30px;">
+              <div *ngIf="columnas.posicion == filas.variable+'-1'">{{columnas.valor}}</div>
+              <div *ngIf="columnas.posicion == filas.variable+'-2'">{{columnas.valor}}</div>
+              <div *ngIf="columnas.posicion == filas.variable+'-3'">{{columnas.valor}}</div>
+              <div *ngIf="columnas.posicion == filas.variable+'-4'">{{columnas.valor}}</div>
+              <div *ngIf="columnas.posicion == filas.variable+'-5'">{{columnas.valor}}</div>
+              <div *ngIf="columnas.posicion == filas.variable+'-6'">{{columnas.valor}}</div>
+              <div *ngIf="columnas.posicion == filas.variable+'-7'">{{columnas.valor}}</div>
+              <div *ngIf="columnas.posicion == filas.variable+'-8'">{{columnas.valor}}</div>
+              <div *ngIf="columnas.posicion == filas.variable+'-9'">{{columnas.valor}}</div>
+              <div *ngIf="columnas.posicion == filas.variable+'-10'">{{columnas.valor}}</div>
+              <div *ngIf="columnas.posicion == filas.variable+'-11'">{{columnas.valor}}</div>
+              <div *ngIf="columnas.posicion == filas.variable+'-12'">{{columnas.valor}}</div>
+              <div *ngIf="columnas.posicion == filas.variable+'-r'">{{columnas.valor}}</div>
+            </div>
+          </div> 
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
