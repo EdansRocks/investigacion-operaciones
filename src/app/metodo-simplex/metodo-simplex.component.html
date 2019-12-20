@@ -3,8 +3,8 @@
     <label class="form-group row" for="inputGroupSelect01">Operación:</label>
   </div>
   <select (change)="cambiar_operacion(operacion.value)" style="float: left; width: 200px; margin-left: 30px;"   class="custom-select" id="inputGroupSelect01"  #operacion>
-    <option value="Maximizar">Maximizar</option>
     <option value="Minimizar">Minimizar</option>
+    <option value="Maximizar">Maximizar</option>
   </select>
   
   <div style="width: 200px; margin-left: 30px;">
@@ -20,16 +20,9 @@
       </div>    
   </div>
 
-  <div *ngFor="let boton of variables_botones">
+  <div *ngFor="let boton of variables_botones; let indice = index">
       <div style="float: left; width: 70px; margin-left: 30px;">
-          <input *ngIf="boton.columna == 1" type="number" class="form-control" placeholder="x1" id="x1" required #x1>
-          <input *ngIf="boton.columna == 2" type="number" class="form-control" placeholder="x2" id="x2" required #x2>
-          <input *ngIf="boton.columna == 3" type="number" class="form-control" placeholder="x3" id="x3" required #x3>
-          <input *ngIf="boton.columna == 4" type="number" class="form-control" placeholder="x4" id="x4" required #x4>
-          <input *ngIf="boton.columna == 5" type="number" class="form-control" placeholder="x5" id="x5" required #x5>
-          <input *ngIf="boton.columna == 6" type="number" class="form-control" placeholder="x6" id="x6" required #x6>
-          <input *ngIf="boton.columna == 7" type="number" class="form-control" placeholder="x7" id="x7" required #x7>
-          <input *ngIf="boton.columna == 8" type="number" class="form-control" placeholder="x8" id="x8" required #x8>
+          <input *ngIf="boton.columna == indice+1" type="number" class="form-control" placeholder="x{{indice+1}}" id="x{{indice+1}}">
       </div>
   </div>
 </div>
@@ -52,22 +45,14 @@
     <tbody>
       <tr *ngFor="let boton_restricciones of restricciones_filas" class=" animated fadeIn fast">
         <td>
-          <div *ngFor="let boton_variables of variables_botones">
+          <div *ngFor="let boton_variables of variables_botones; let indice = index">
             <div style="float: left; width: 70px; margin-left: 30px;">
-              <input *ngIf="boton_variables.columna == 1" type="number" class="form-control" placeholder="x1" [id]="boton_restricciones.fila +'-'+ boton_variables.columna">
-              <input *ngIf="boton_variables.columna == 2" type="number" class="form-control" placeholder="x2" [id]="boton_restricciones.fila +'-'+ boton_variables.columna">
-              <input *ngIf="boton_variables.columna == 3" type="number" class="form-control" placeholder="x3" [id]="boton_restricciones.fila +'-'+ boton_variables.columna">
-              <input *ngIf="boton_variables.columna == 4" type="number" class="form-control" placeholder="x4" [id]="boton_restricciones.fila +'-'+ boton_variables.columna">
-              <input *ngIf="boton_variables.columna == 5" type="number" class="form-control" placeholder="x5" [id]="boton_restricciones.fila +'-'+ boton_variables.columna">
-              <input *ngIf="boton_variables.columna == 6" type="number" class="form-control" placeholder="x6" [id]="boton_restricciones.fila +'-'+ boton_variables.columna">
-              <input *ngIf="boton_variables.columna == 7" type="number" class="form-control" placeholder="x7" [id]="boton_restricciones.fila +'-'+ boton_variables.columna">
-              <input *ngIf="boton_variables.columna == 8" type="number" class="form-control" placeholder="x8" [id]="boton_restricciones.fila +'-'+ boton_variables.columna">
-
+              <input *ngIf="boton_variables.columna == indice+1" type="number" class="form-control" placeholder="x{{indice+1}}" [id]="boton_restricciones.fila +'-'+ boton_variables.columna">
             </div>
           </div> 
           <select style="float: left; width: 70px; margin-left: 30px;" class="custom-select">
-            <option value="mayor"> >= </option>
-            <option value="menor"> <= </option>
+            <option value="mayor"> <= </option>
+            <option value="menor"> >= </option>
           </select>
           <div style="float: left; width: 70px; margin-left: 30px;">
             <input type="number" class="form-control" placeholder="R" [id]="boton_restricciones.fila +'-r'">
@@ -87,48 +72,31 @@
     <thead>
       <tr>
         <td>
-          <div *ngFor="let titulos of variables_columnas">
+          <div *ngFor="let titulos of variables_columnas; let indice = index">
             <div style="float: left; width: 70px; margin-left: 30px;">
-              <div *ngIf="titulos.columna == 1">{{titulos.etiqueta}}</div>
-              <div *ngIf="titulos.columna == 2">{{titulos.etiqueta}}</div>
-              <div *ngIf="titulos.columna == 3">{{titulos.etiqueta}}</div>
-              <div *ngIf="titulos.columna == 4">{{titulos.etiqueta}}</div>
-              <div *ngIf="titulos.columna == 5">{{titulos.etiqueta}}</div>
-              <div *ngIf="titulos.columna == 6">{{titulos.etiqueta}}</div>
-              <div *ngIf="titulos.columna == 7">{{titulos.etiqueta}}</div>
-              <div *ngIf="titulos.columna == 8">{{titulos.etiqueta}}</div>
-              <div *ngIf="titulos.columna == 9">{{titulos.etiqueta}}</div>
-              <div *ngIf="titulos.columna == 10">{{titulos.etiqueta}}</div>
-              <div *ngIf="titulos.columna == 11">{{titulos.etiqueta}}</div>
-              <div *ngIf="titulos.columna == 12">{{titulos.etiqueta}}</div>
+              <div *ngIf="titulos.columna == indice+1">{{titulos.etiqueta}}</div>
             </div>
           </div> 
         </td>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let filas of arreglo_variables" class=" animated fadeIn fast">
+      <tr *ngFor="let filas of arreglo_coeficientes; let indice = index" class=" animated fadeIn fast">
         <td>
-          <div *ngFor="let columnas of filas.fila">
-            <div style="float: left; width: 70px; margin-left: 30px;">
-              <div *ngIf="columnas.posicion == filas.variable+'-1'">{{columnas.valor}}</div>
-              <div *ngIf="columnas.posicion == filas.variable+'-2'">{{columnas.valor}}</div>
-              <div *ngIf="columnas.posicion == filas.variable+'-3'">{{columnas.valor}}</div>
-              <div *ngIf="columnas.posicion == filas.variable+'-4'">{{columnas.valor}}</div>
-              <div *ngIf="columnas.posicion == filas.variable+'-5'">{{columnas.valor}}</div>
-              <div *ngIf="columnas.posicion == filas.variable+'-6'">{{columnas.valor}}</div>
-              <div *ngIf="columnas.posicion == filas.variable+'-7'">{{columnas.valor}}</div>
-              <div *ngIf="columnas.posicion == filas.variable+'-8'">{{columnas.valor}}</div>
-              <div *ngIf="columnas.posicion == filas.variable+'-9'">{{columnas.valor}}</div>
-              <div *ngIf="columnas.posicion == filas.variable+'-10'">{{columnas.valor}}</div>
-              <div *ngIf="columnas.posicion == filas.variable+'-11'">{{columnas.valor}}</div>
-              <div *ngIf="columnas.posicion == filas.variable+'-12'">{{columnas.valor}}</div>
-              <div *ngIf="columnas.posicion == filas.variable+'-r'">{{columnas.valor}}</div>
-            </div>
+          <div *ngFor="let columnas of arreglo_coeficientes[indice]; let indice_col = index">
+            <div style="float: left; width: 70px; margin-left: 30px;">{{columnas}}</div>
           </div> 
         </td>
       </tr>
     </tbody>
   </table>
+</div>
+
+<div style="text-align: center; padding: 20px; margin: 20px;">
+  <div class="form-group row">
+    <div style="width: 430px; margin-left: 30px;">
+        <button (click)="iteracion()" type="button" class="btn btn-outline-info noMargin col">Iterar</button>
+    </div>    
+  </div>
 
 </div>

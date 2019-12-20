@@ -9,23 +9,21 @@ export class MetodoSimplexComponent implements OnInit {
 
   constructor() { }
 
-  operacion : boolean = true; //TRUE = Maximizar; FALSE = Minimizar;
+  operacion : boolean = false; //TRUE = Maximizar; FALSE = Minimizar;
 
   cantidad_variables : number;
-
   cantidad_restricciones : number;
 
-  arreglo_variables : any[] = [];
+  arreglo_coeficientes_copia : any[] = [];
+  arreglo_coeficientes : any[] = [];
 
   variables_botones : any[] = []; 
-
   restricciones_filas : any[] = []; 
-
   variables_columnas : any[] = [];
 
   estado : boolean = false;
-
   iniciar : boolean = false;
+  iteraciones : boolean = false;
 
   ngOnInit() {
     //this.cargarArreglo();
@@ -65,19 +63,14 @@ export class MetodoSimplexComponent implements OnInit {
   }
 
   empezar(){
-    //let num : number = parseFloat((<HTMLInputElement>document.getElementById("x1")).value);
 
-    let aux : any;
-
-    let comparador : number = +(this.cantidad_restricciones) + 1;
-
-    let posicion_resultado = +(this.cantidad_restricciones) +(comparador);
+    let posicion_resultado = Number(this.cantidad_variables) + Number(this.cantidad_restricciones) + 1;
 
     let boton : any;
 
     for (let i = 1; i <= posicion_resultado; i++) {
       if(i < posicion_resultado){
-        boton = {etiqueta: "x "+i, columna: i};
+        boton = {etiqueta: "x"+i, columna: i};
       }else{
         boton = {etiqueta: "R", columna: i};
       }
@@ -85,89 +78,157 @@ export class MetodoSimplexComponent implements OnInit {
 
       this.variables_columnas.push(boton);
     }
-    
-    let fila_1 : any[] = [];
-    let fila_2 : any[] = [];
-    let fila_3 : any[] = [];
-    let fila_4 : any[] = [];
-    let fila_5 : any[] = [];
+
     
     //Variables colocadas en un arreglo con posiciones
 
-    for (let i = 1; i <= this.cantidad_variables; i++) {
-      if(comparador > 1){aux = {valor: parseFloat((<HTMLInputElement>document.getElementById('1-'+i)).value), posicion: '1-'+i}; fila_1.push(aux)}
-      if(comparador > 2){aux = {valor: parseFloat((<HTMLInputElement>document.getElementById('2-'+i)).value), posicion: '2-'+i}; fila_2.push(aux)}
-      if(comparador > 3){aux = {valor: parseFloat((<HTMLInputElement>document.getElementById('3-'+i)).value), posicion: '3-'+i}; fila_3.push(aux)}
-      if(comparador > 4){aux = {valor: parseFloat((<HTMLInputElement>document.getElementById('4-'+i)).value), posicion: '4-'+i}; fila_4.push(aux)}
-      aux = {valor: parseFloat((<HTMLInputElement>document.getElementById('x'+i)).value), posicion: '5-'+i}; fila_5.push(aux);
+    for (let i = 1; i <= this.cantidad_restricciones; i++) {
+      let aux : any[] = [];
+      for (let j = 1; j <= this.cantidad_variables; j++) {
+        aux[j-1] = parseFloat((<HTMLInputElement>document.getElementById(i+'-'+j)).value);
+      }
+      this.arreglo_coeficientes.push(aux);
     }
 
     //Variables de Olgura
+    
+    let posicion_aux = 1;
 
-    for (let i = 0; i < this.cantidad_restricciones; i++) {
-      if(i == 0){aux = {valor: 1, posicion: '1-'+(+comparador+i)}; fila_1.push(aux);
-                aux = {valor: 0, posicion: '2-'+(+comparador+i)}; fila_2.push(aux);
-                aux = {valor: 0, posicion: '3-'+(+comparador+i)}; fila_3.push(aux);
-                aux = {valor: 0, posicion: '4-'+(+comparador+i)}; fila_4.push(aux);
-                aux = {valor: 0, posicion: '5-'+(+comparador+i)}; fila_5.push(aux);}
-      if(i == 1){aux = {valor: 1, posicion: '2-'+(+comparador+i)}; fila_2.push(aux);
-                aux = {valor: 0, posicion: '1-'+(+comparador+i)}; fila_1.push(aux);
-                aux = {valor: 0, posicion: '3-'+(+comparador+i)}; fila_3.push(aux);
-                aux = {valor: 0, posicion: '4-'+(+comparador+i)}; fila_4.push(aux);
-                aux = {valor: 0, posicion: '5-'+(+comparador+i)}; fila_5.push(aux);}
-      if(i == 2){aux = {valor: 1, posicion: '3-'+(+comparador+i)}; fila_3.push(aux);
-                aux = {valor: 0, posicion: '1-'+(+comparador+i)}; fila_1.push(aux);
-                aux = {valor: 0, posicion: '2-'+(+comparador+i)}; fila_2.push(aux);
-                aux = {valor: 0, posicion: '4-'+(+comparador+i)}; fila_4.push(aux);
-                aux = {valor: 0, posicion: '5-'+(+comparador+i)}; fila_5.push(aux);}
-      if(i == 3){aux = {valor: 1, posicion: '4-'+(+comparador+i)}; fila_4.push(aux);
-                aux = {valor: 0, posicion: '1-'+(+comparador+i)}; fila_1.push(aux);
-                aux = {valor: 0, posicion: '2-'+(+comparador+i)}; fila_2.push(aux);
-                aux = {valor: 0, posicion: '3-'+(+comparador+i)}; fila_3.push(aux);
-                aux = {valor: 0, posicion: '5-'+(+comparador+i)}; fila_5.push(aux);}
-    }
+    this.arreglo_coeficientes.forEach(element => {
+      for (let i = 1; i <= this.cantidad_restricciones; i++) {
+        if(i == posicion_aux){
+          element.push(1);
+        }else{
+          element.push(0);
+        }
+      }
+      posicion_aux++;
+    });
 
     //Variables de resultado añadidas
 
-    if(comparador > 1){aux = {valor: parseFloat((<HTMLInputElement>document.getElementById('1-r')).value), posicion: '1-r'}; fila_1.push(aux)}
-    if(comparador > 2){aux = {valor: parseFloat((<HTMLInputElement>document.getElementById('2-r')).value), posicion: '2-r'}; fila_2.push(aux)}
-    if(comparador > 3){aux = {valor: parseFloat((<HTMLInputElement>document.getElementById('3-r')).value), posicion: '3-r'}; fila_3.push(aux)}
-    if(comparador > 4){aux = {valor: parseFloat((<HTMLInputElement>document.getElementById('4-r')).value), posicion: '4-r'}; fila_4.push(aux)}
-    aux = {valor: 0, posicion: '5-r'}; fila_5.push(aux);
+    posicion_aux = 1;
 
-    //Agregar al arreglo
+    this.arreglo_coeficientes.forEach(element => {
+      element.push(parseFloat((<HTMLInputElement>document.getElementById(posicion_aux+'-r')).value));
+      posicion_aux++;
+    });
 
-    if(comparador > 1){aux = {variable: 1, fila: fila_1}; this.arreglo_variables.push(aux)}
-    if(comparador > 2){aux = {variable: 2, fila: fila_2}; this.arreglo_variables.push(aux)}
-    if(comparador > 3){aux = {variable: 3, fila: fila_3}; this.arreglo_variables.push(aux)}
-    if(comparador > 4){aux = {variable: 4, fila: fila_4}; this.arreglo_variables.push(aux)}
-    aux = {variable: 5, fila: fila_5}; this.arreglo_variables.push(aux);
+    //Agregar funcion objetivo al arreglo
 
+    let arreglo_aux : any[] = [];
+    posicion_aux = 0;
 
+    this.variables_columnas.forEach(element => {
+      if(posicion_aux < this.cantidad_variables){
+        if(this.operacion){
+          arreglo_aux[posicion_aux] = -(parseFloat((<HTMLInputElement>document.getElementById(element.etiqueta)).value));
+        }else{
+          arreglo_aux[posicion_aux] = parseFloat((<HTMLInputElement>document.getElementById(element.etiqueta)).value);
+        }
+      }else{
+        arreglo_aux[posicion_aux] = 0;
+      }
+      posicion_aux++;
+    });
 
-    
-    console.log(this.arreglo_variables);
+    this.arreglo_coeficientes.push(arreglo_aux);
+
+    this.arreglo_coeficientes_copia = this.arreglo_coeficientes.concat();
+
+    this.arreglo_coeficientes_copia.push([0]);
 
     this.iniciar = true;
 
+    /*
+    this.arreglo_coeficientes = [[8, -2, 1, -1, 1, 0, 0, 50], [3, 5, 0, 2, 0, 1, 0, 150],
+                                  [1, -1, 2, -4, 0, 0, 1, 100], [2, 4, -4, 7, 0, 0, 0, 0]];
 
+    this.cantidad_restricciones = 3;
+    this.cantidad_variables = 4;
+    */
+
+  }
+
+  iteracion(){
     
-  }
+    let selector : number = 9999;
 
+    let columna_pivote : number = 0;
 
+    let aux : any = 0;
 
+    let resultado_aux = 9999;
 
+    let pivote : number;
 
+    let fila_pivote : number;
 
+    let indice_fila_objetivo : number = this.arreglo_coeficientes.length - 1;
 
+    let indice_columna_resultado : number = Number(this.cantidad_variables) + Number(this.cantidad_restricciones);
 
-  /*
-  for (let i = 1; i <= cantidad; i++) {
-    for (let j = 1; j <= this.variables_botones.length; j++) {
-      boton = {posicion: i+"-"+j, valor: j};
+    this.arreglo_coeficientes[indice_fila_objetivo].forEach(element => {
+      if(element != 0){if(element < selector){selector = element; columna_pivote = aux;}}
+      aux++;
+    });
 
-      this.restricciones_filas.push(boton);
+    aux = 0;
+
+    //Encontrar Pivote
+
+    this.arreglo_coeficientes.forEach(element => {
+
+      let operacion_aux : number = 9999;
+      let aux_numerador : number = 9999;
+      let aux_denominador : number = 1;
+      
+      if(aux < this.cantidad_restricciones){
+        aux_numerador = element[indice_columna_resultado];
+        
+        if(element[columna_pivote] > 0){aux_denominador = element[columna_pivote];}else{aux_denominador = 1;}
+        
+        operacion_aux = aux_numerador / aux_denominador;
+      }
+
+      if(operacion_aux < resultado_aux){resultado_aux = operacion_aux; pivote = element[columna_pivote]; fila_pivote = aux;};
+      
+      aux++;
+    });
+
+    //Dividir la fila pivote para dejar el pivote en 1
+
+    for (let i = 0; i <= indice_columna_resultado; i++) {
+      this.arreglo_coeficientes[fila_pivote][i] = (this.arreglo_coeficientes[fila_pivote][i] / pivote).toFixed(2);
     }
+
+    //Encontrar las otras filas aparte de la fila pivote
+
+    aux = 0;
+
+    this.arreglo_coeficientes.forEach(element => {
+      if(aux != fila_pivote){
+        let num_pivote = this.arreglo_coeficientes[aux][columna_pivote];
+        for (let i = 0; i <= indice_columna_resultado; i++) {
+          this.arreglo_coeficientes[aux][i] = (this.arreglo_coeficientes[aux][i] - (num_pivote * this.arreglo_coeficientes[fila_pivote][i])).toFixed(2);
+        } 	
+      }
+      aux++;
+    });
+
+
+    console.log(this.arreglo_coeficientes);
+
+    console.log(this.arreglo_coeficientes_copia);
+
+
+    this.iteraciones = true;
+
   }
-  */
+
+
+
+
+
+
 }
